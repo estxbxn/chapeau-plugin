@@ -1,0 +1,74 @@
+# Chapeau Plugin Configuration
+# Multi-server testing plugin using RabbitMQ
+
+# Server identification
+server:
+  # Unique identifier for this server (server01, server02, proxy)
+  id: "server01"
+  # Display name for this server
+  name: "Server 01"
+
+# RabbitMQ Configuration
+rabbitmq:
+  # RabbitMQ server host
+  host: "localhost"
+  # RabbitMQ server port
+  port: 5672
+  # Virtual host
+  virtualHost: "/"
+  # Authentication
+  username: "guest"
+  password: "guest"
+  # Connection settings
+  connection:
+    # Connection timeout in milliseconds
+    connectionTimeout: 30000
+    # Network recovery interval in milliseconds
+    networkRecoveryInterval: 5000
+    # Enable automatic recovery
+    automaticRecovery: true
+  # Exchange configuration
+  exchange:
+    # Exchange name for server communication
+    name: "chapeau.servers"
+    # Exchange type (direct, topic, fanout, headers)
+    type: "topic"
+    # Exchange durability
+    durable: true
+  # Queue configuration
+  queue:
+    # Queue prefix (will be suffixed with server id)
+    prefix: "chapeau.server."
+    # Queue durability
+    durable: true
+    # Queue auto-delete
+    autoDelete: false
+    # Queue exclusivity
+    exclusive: false
+
+# Messaging configuration
+messaging:
+  # Enable debug logging for messages
+  debug: false
+  # Message timeout in milliseconds
+  timeout: 10000
+  # Maximum retry attempts for failed messages
+  maxRetries: 3
+  # Retry delay in milliseconds
+  retryDelay: 1000
+
+# Commands configuration
+commands:
+  # Enable test commands
+  enableTestCommands: true
+  # Command prefix
+  prefix: "chapeau"
+
+# Features configuration
+features:
+  # Chat synchronization between servers
+  chatSync:
+    # Enable cross-server chat synchronization
+    enabled: true
+    # Format for cross-server messages (supports placeholders: {server}, {player}, {message})
+    format: "[{server}] <{player}> {message}"

@@ -1,0 +1,21 @@
+name: Chapeau
+version: '${project.version}'
+main: com.whimsy.chapeau.ChapeauPlugin
+api-version: '1.21'
+authors: [Whimsy]
+description: Multi-server testing plugin using RabbitMQ for inter-server communication
+
+commands:
+  chapeau:
+    description: Main Chapeau command for multi-server testing
+    usage: /<command> [subcommand]
+    permission: chapeau.admin
+    aliases: [ch]
+  
+permissions:
+  chapeau.admin:
+    description: Access to all Chapeau commands
+    default: op
+  chapeau.test:
+    description: Access to test commands
+    default: op

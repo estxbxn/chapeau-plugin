@@ -1,0 +1,60 @@
+plugins {
+    id 'java'
+    id 'com.gradleup.shadow' version '8.3.5'
+}
+
+group = 'com.whimsy.chapeau'
+version = '1.0.0-BETA'
+compileJava.options.encoding = 'UTF-8'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+
+    maven {
+        name = "papermc-repo"
+        url = "https://repo.papermc.io/repository/maven-public/"
+    }
+
+    maven { url = 'https://repo.papermc.io/repository/maven-public/' }
+}
+
+dependencies {
+    // Core dependencies
+    implementation 'com.rabbitmq:amqp-client:5.20.0'
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'org.apache.commons:commons-lang3:3.18.0'
+
+    // Minecraft APIs
+    compileOnly 'io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT'
+    compileOnly 'net.kyori:adventure-api:4.15.0'
+    compileOnly 'net.kyori:adventure-text-minimessage:4.15.0'
+}
+
+shadowJar {
+    archiveClassifier.set('')
+    // Keep original package names for testing plugin
+    // relocate 'com.rabbitmq', 'com.whimsy.chapeau.libs.rabbitmq'
+    // relocate 'com.google.gson', 'com.whimsy.chapeau.libs.gson'
+    // relocate 'org.apache.commons', 'com.whimsy.chapeau.libs.commons'
+
+    mergeServiceFiles()
+}
+
+processResources {
+    filesMatching('plugin.yml') {
+        expand(project.properties)
+    }
+}
+
+build.dependsOn shadowJar
+jar.enabled = false
+
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs += ['-parameters']
+}
